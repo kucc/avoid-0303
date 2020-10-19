@@ -7,7 +7,7 @@ import {
   Hide_Scrollbar,
 } from "../../constant";
 
-export const Game = styled.div`
+export const GamePage = styled.div`
   width: 100%;
   height: 100%;
 

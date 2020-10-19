@@ -1,17 +1,20 @@
 import React from "react";
 import Layout from "../../component/layout";
+import Game from "../../component/game";
 
 import * as S from "./styles";
 
-const Game: React.FC = () => {
+const GamePage: React.FC = () => {
   return (
     <Layout>
-      <S.Game>
-        <S.GameArea></S.GameArea>
+      <S.GamePage>
+        <S.GameArea>
+          <Game />
+        </S.GameArea>
         <S.ChattingArea></S.ChattingArea>
-      </S.Game>
+      </S.GamePage>
     </Layout>
   );
 };
 
-export default Game;
+export default GamePage;
