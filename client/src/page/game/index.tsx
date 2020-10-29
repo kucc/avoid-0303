@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../component/layout";
-import Game from "../../component/game";
+import GameComponent from "../../component/game";
 
 import * as S from "./styles";
 
@@ -9,7 +9,7 @@ const GamePage: React.FC = () => {
     <Layout>
       <S.GamePage>
         <S.GameArea>
-          <Game />
+          <GameComponent />
         </S.GameArea>
         <S.ChattingArea></S.ChattingArea>
       </S.GamePage>
