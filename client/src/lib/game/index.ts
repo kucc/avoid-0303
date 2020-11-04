@@ -15,7 +15,6 @@ export default class Game extends PIXI.Application {
       width: 700,
       height: 400,
       backgroundColor: 0x1099bb,
-      resolution: window.devicePixelRatio || 1,
     });
 
     this.container = new PIXI.Container();
