@@ -1,5 +1,7 @@
 import * as PIXI from "pixi.js";
 import { getDistance } from "../../distance";
+import elasticCollision from "../reaction/elastic-collision";
+import updateRandomly from "../reaction/random-update";
 import Component from "./component";
 import { ComponentMeta } from "./types";
 
@@ -28,16 +30,11 @@ export default class Ball extends Component<PIXI.Circle> {
   }
 
   public update() {
-    this.move(this.xSpeed, this.ySpeed);
-    if (
-      this.x > 700 + this.radius ||
-      this.x < -this.radius ||
-      this.y > 400 + this.radius ||
-      this.y < -this.radius
-    ) {
-      this.resetSpeed();
-      this.resetPosition();
-    }
+    elasticCollision.bind(this)();
+  }
+
+  public setUpdate(update: () => void) {
+    this.update = update;
   }
 
   public setSpeed(x: number, y: number) {
@@ -61,5 +58,17 @@ export default class Ball extends Component<PIXI.Circle> {
 
   private isBallCollided(target: Ball): boolean {
     return getDistance(target.x, this.x, target.y, this.y) <= target.radius + this.radius;
+  }
+
+  public onCollide(target: Component<any>) {
+    if (target instanceof Ball) {
+      const e = [this.xSpeed, this.ySpeed];
+      const dist = getDistance(target.x, this.x, target.y, this.y);
+      const n = [(this.x - target.x) / dist, (this.y - target.y) / dist];
+      const edn = -e[0] * n[0] - e[1] * n[1];
+      const result = [n[0] * edn * 2 + e[0], n[1] * edn * 2 + e[1]];
+      this.xSpeed = result[0];
+      this.ySpeed = result[1];
+    }
   }
 }

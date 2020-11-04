@@ -11,6 +11,12 @@ export interface RectanglerMeta {
   color: string;
 }
 
+export interface OvalMeta {
+  longAxis: number;
+  shortAxis: number;
+  color: string;
+}
+
 export type ComponentMeta<T> = T extends Circle
   ? CircleMeta
   : T extends Rectangle

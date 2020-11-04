@@ -20,7 +20,7 @@ export default class Game extends PIXI.Application {
     this.container = new PIXI.Container();
     this.stage.addChild(this.container);
 
-    const balls = this.createRandomBalls(20);
+    const balls = this.createRandomBalls(10);
 
     // generate obstacles
     this.stage.addChild(...balls);
