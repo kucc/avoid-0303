@@ -5,14 +5,13 @@ import Component from "./component";
 import { ComponentMeta } from "./types";
 
 export default abstract class Rectangle extends Component<PIXI.Rectangle> {
-  public constructor(width: number, height: number, color: number) {
-    super({ width, height, color });
+  public constructor(width: number, height: number, color: number, texture: PIXI.Texture) {
+    super({ width, height, color, texture });
   }
 
   protected initilaize(meta: ComponentMeta<PIXI.Rectangle>) {
-    this.beginFill(meta.color);
-    this.drawRect(0, 0, meta.width, meta.height);
-    this.endFill();
+    this.width = meta.width;
+    this.height = meta.height;
   }
 
   public resetPosition() {

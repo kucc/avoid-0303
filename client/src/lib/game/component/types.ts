@@ -1,14 +1,16 @@
-import { Circle, Rectangle } from "pixi.js";
+import { Circle, Rectangle, Texture } from "pixi.js";
 
 export interface CircleMeta {
   radius: number;
   color: number;
+  texture: Texture;
 }
 
 export interface RectanglerMeta {
   width: number;
   height: number;
   color: number;
+  texture: Texture;
 }
 
 export interface OvalMeta {

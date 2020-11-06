@@ -27,11 +27,15 @@ export default class Game extends PIXI.Application {
     this.stage.addChild(this.container);
     this.runGame = true;
 
-    const gameOverTexture = PIXI.BaseTexture.from("/images/surprise-inmyeon.png");
-    gameOverTexture.setSize(WIDTH, HEIGHT);
+    const gameOverTexture = PIXI.Texture.from("/images/surprise-inmyeon.png");
+    const surprise = new PIXI.Sprite(gameOverTexture);
+    surprise.width = WIDTH * 3;
+    surprise.height = HEIGHT * 3;
+    surprise.x = -WIDTH;
+    surprise.y = -HEIGHT;
     // generate obstacles
 
-    const balls = this.createRandomCollideBalls(10);
+    const balls = this.createRandomCollideBalls(15);
     this.stage.addChild(...balls);
     this.obstacleController = new ObstacleController(balls);
 
@@ -45,7 +49,8 @@ export default class Game extends PIXI.Application {
     WinText.position.x = WIDTH / 2;
     WinText.position.y = HEIGHT / 2;
 
-    const character = new Character(50, 25, getRandomHexColor(), 3);
+    const characterTexture = PIXI.Texture.from("/images/swim-right-1.png");
+    const character = new Character(100, 40, getRandomHexColor(), 3.5, characterTexture);
     this.stage.addChild(character);
     this.obstacleController.addObstacle(character);
 
@@ -54,8 +59,8 @@ export default class Game extends PIXI.Application {
     gameMap.walls.forEach((a) => this.obstacleController.addObstacle(a));
 
     const enemies = this.createRandomEnemy(7);
-    // this.stage.addChild(...enemies);
-    // enemies.forEach((e) => this.obstacleController.addObstacle(e));
+    this.stage.addChild(...enemies);
+    enemies.forEach((e) => this.obstacleController.addObstacle(e));
 
     character.stage = this.stage;
 
@@ -81,7 +86,12 @@ export default class Game extends PIXI.Application {
     const stopGame = () => {
       this.obstacleController.setObstacle([]);
       this.runGame = false;
+
+      this.stage.pivot.x = WIDTH / 2;
+      this.stage.position.x = WIDTH / 2;
+
       while (this.stage.children[0]) this.stage.removeChild(this.stage.children[0]);
+      this.stage.addChild(surprise);
     };
 
     character.stopGame = stopGame;
@@ -91,7 +101,16 @@ export default class Game extends PIXI.Application {
 
   private createRandomCollideBalls(count: number) {
     const ballSize = getRandomArray(count).map((a) => Math.floor(a * 20) + 5);
-    const balls = ballSize.map((n) => new RandomCollideBall(30, getRandomHexColor()));
+    const textureName = [
+      "/images/ball-log-left.png",
+      "/images/ball-tire-left.png",
+      "/images/ball-bomb-left.png",
+      "/images/ball-hyunchae-left.png",
+    ];
+    const textures = textureName.map((t) => PIXI.Texture.from(t));
+    const balls = ballSize.map(
+      (n, i) => new RandomCollideBall(100, getRandomHexColor(), textures[i]),
+    );
 
     balls.forEach((ball) => ball.resetPosition());
     balls.forEach((ball) => ball.resetSpeed());
@@ -102,9 +121,11 @@ export default class Game extends PIXI.Application {
   private createRandomImmutableBox(count: number) {
     const boxWidth = getRandomArray(count).map((a) => Math.floor(a * 20) + 5);
     const boxHeight = getRandomArray(count).map((a) => Math.floor(a * 20) + 5);
+    const rightInmyeonTexture = PIXI.Texture.from("/images/surpriseinmyeon-right-1.png");
 
     const boxes = boxHeight.map(
-      (_, i) => new ImmovableRectangle(boxWidth[i], boxHeight[i], getRandomHexColor()),
+      (_, i) =>
+        new ImmovableRectangle(boxWidth[i], boxHeight[i], getRandomHexColor(), rightInmyeonTexture),
     );
 
     boxes.forEach((b) => b.resetPosition());
@@ -116,7 +137,10 @@ export default class Game extends PIXI.Application {
     const boxWidth = getRandomArray(count).map((a) => Math.floor(a * 20) + 5);
     const boxHeight = getRandomArray(count).map((a) => Math.floor(a * 20) + 5);
 
-    const enemies = getRandomArray(count).map((_, i) => new Enemy(200, 100, getRandomHexColor()));
+    const rightInmyeonTexture = PIXI.Texture.from("/images/inmyeon-right-1.png");
+    const enemies = getRandomArray(count).map(
+      (_, i) => new Enemy(400, 200, getRandomHexColor(), rightInmyeonTexture),
+    );
 
     enemies.forEach((e, i) => e.setSpeed(1.5));
     enemies.forEach((e, i) => e.setY(i * 100 - 50));

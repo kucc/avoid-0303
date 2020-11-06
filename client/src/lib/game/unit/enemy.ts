@@ -1,11 +1,12 @@
+import { Texture } from "pixi.js";
 import Rectangle from "../component/rectangle";
 
 export default class Enemy extends Rectangle {
   public xSpeed: number;
   public baseY: number;
-  public constructor(width: number, height: number, color: number) {
-    super(width, height, color);
-    this.position.x = -300;
+  public constructor(width: number, height: number, color: number, texture: Texture) {
+    super(width, height, color, texture);
+    this.position.x = -600;
   }
 
   public setSpeed(x: number) {

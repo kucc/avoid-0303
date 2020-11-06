@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
 import { ComponentMeta } from "./types";
 
-export default abstract class Component<T> extends PIXI.Graphics {
+export default abstract class Component<T> extends PIXI.Sprite {
   public constructor(componentMeta: ComponentMeta<T>) {
-    super();
+    super(componentMeta.texture);
     this.initilaize(componentMeta);
   }
 

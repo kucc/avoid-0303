@@ -1,9 +1,10 @@
+import { Texture } from "pixi.js";
 import Component from "./component";
 import Rectangle from "./rectangle";
 
 export default class ImmovableRectangle extends Rectangle {
-  public constructor(width: number, height: number, color: number) {
-    super(width, height, color);
+  public constructor(width: number, height: number, color: number, texture: Texture) {
+    super(width, height, color, texture);
   }
 
   public update() {}

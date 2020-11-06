@@ -5,7 +5,7 @@ export default function elasticCollision() {
     this.ySpeed = -this.ySpeed;
   }
 
-  if (this.x + this.radius >= WIDTH || this.x - this.radius <= 0) {
+  if (this.x + this.radius >= 10000 || this.x - this.radius <= 0) {
     this.xSpeed = -this.xSpeed;
   }
 

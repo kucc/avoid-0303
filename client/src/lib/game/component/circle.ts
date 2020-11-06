@@ -11,8 +11,8 @@ export default abstract class Circle extends Component<PIXI.Circle> {
   public ySpeed: number;
   public radius: number;
 
-  public constructor(radius: number, color: number) {
-    super({ radius, color });
+  public constructor(radius: number, color: number, texture: PIXI.Texture) {
+    super({ radius, color, texture });
 
     this.xSpeed = 0;
     this.ySpeed = 0;
@@ -20,9 +20,8 @@ export default abstract class Circle extends Component<PIXI.Circle> {
   }
 
   protected initilaize(meta: ComponentMeta<PIXI.Circle>) {
-    this.beginFill(meta.color);
-    this.drawCircle(0, 0, meta.radius);
-    this.endFill();
+    this.width = meta.radius * 2;
+    this.height = meta.radius * 2;
   }
 
   public move(x: number, y: number) {
@@ -40,7 +39,7 @@ export default abstract class Circle extends Component<PIXI.Circle> {
   }
 
   public resetPosition() {
-    this.position.set(Math.random() * WIDTH, Math.random() * HEIGHT);
+    this.position.set(Math.random() * 10000, Math.random() * HEIGHT);
   }
 
   public resetSpeed() {

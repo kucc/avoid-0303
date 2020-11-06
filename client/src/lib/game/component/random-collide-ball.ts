@@ -8,8 +8,8 @@ import ImmovableRectangle from "./immovable-rectangle";
 import Rectangle from "./rectangle";
 
 export default class RandomCollideBall extends Circle {
-  public constructor(radius: number, color: number) {
-    super(radius, color);
+  public constructor(radius: number, color: number, texture: PIXI.Texture) {
+    super(radius, color, texture);
   }
 
   public onCollide(t: Component<any>) {

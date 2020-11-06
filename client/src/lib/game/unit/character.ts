@@ -1,3 +1,4 @@
+import { Texture } from "pixi.js";
 import { HEIGHT, WIDTH } from "../../../constant";
 import { KeyState } from "../../type";
 import Circle from "../component/circle";
@@ -16,8 +17,14 @@ export default class Character extends Rectangle {
   public currentMap: GameMap;
   public stopGame: () => void;
 
-  public constructor(width: number, height: number, color: number, initialSpeed: number) {
-    super(width, height, color);
+  public constructor(
+    width: number,
+    height: number,
+    color: number,
+    initialSpeed: number,
+    texture: Texture,
+  ) {
+    super(width, height, color, texture);
     this.speed = initialSpeed;
     this.movable = 0;
     this.stuck = false;
