@@ -27,7 +27,9 @@ export default class Game extends PIXI.Application {
     // generate obstacles
     this.stage.addChild(...balls);
     this.stage.addChild(...boxes);
+
     this.obstacleController = new ObstacleController(balls);
+    boxes.forEach((b) => this.obstacleController.addObstacle(b));
 
     // create character
 

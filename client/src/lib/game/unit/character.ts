@@ -1,5 +1,7 @@
+import { dir } from "console";
 import { KeyState } from "../../type";
 import Component from "../component/component";
+import { getCollisionDirection } from "../component/lib/get-collision-direction";
 import Rectangle from "../component/rectangle";
 
 export default class Character extends Rectangle {
@@ -23,7 +25,23 @@ export default class Character extends Rectangle {
   }
 
   public onCollide(t: Component<any>) {
-    console.log("collide");
+    if (t instanceof Rectangle) {
+      const direction = getCollisionDirection(this, t);
+
+      switch (direction) {
+        case "left":
+          this.keyState.right = false;
+          break;
+        case "right":
+          this.keyState.left = false;
+          break;
+        case "bottom":
+          this.keyState.up = false;
+          break;
+        case "top":
+          this.keyState.down = false;
+      }
+    }
   }
 
   public update() {

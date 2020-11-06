@@ -20,6 +20,7 @@ export default class ObstacleController {
       this.obstacles.forEach((o2) => {
         if (o1 === o2) return;
         if (o1.isCollided(o2)) {
+          // 양쪽으로 바꿔야함
           o1.onCollide(o2);
         }
       });
