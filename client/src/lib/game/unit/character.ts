@@ -1,8 +1,10 @@
 import { HEIGHT, WIDTH } from "../../../constant";
 import { KeyState } from "../../type";
+import Circle from "../component/circle";
 import Component from "../component/component";
 import { getCollisionDirectionOfRectangle } from "../component/lib/get-collision-direction";
 import Rectangle from "../component/rectangle";
+import Enemy from "./enemy";
 import GameMap from "./map";
 
 export default class Character extends Rectangle {
@@ -12,6 +14,7 @@ export default class Character extends Rectangle {
   public speed: number;
   public stage: any;
   public currentMap: GameMap;
+  public stopGame: () => void;
 
   public constructor(width: number, height: number, color: number, initialSpeed: number) {
     super(width, height, color);
@@ -32,6 +35,11 @@ export default class Character extends Rectangle {
   }
 
   public onCollide(t: Component<any>) {
+    if (t instanceof Enemy) {
+      if (this.stopGame) this.stopGame();
+      return;
+    }
+
     if (t instanceof Rectangle) {
       const direction = getCollisionDirectionOfRectangle(this, t);
 
@@ -48,6 +56,10 @@ export default class Character extends Rectangle {
         case "top":
           this.keyState.down = false;
       }
+    }
+
+    if (t instanceof Circle) {
+      this.onBlur();
     }
   }
 
