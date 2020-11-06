@@ -3,6 +3,7 @@ import { KeyState } from "../../type";
 import Component from "../component/component";
 import { getCollisionDirectionOfRectangle } from "../component/lib/get-collision-direction";
 import Rectangle from "../component/rectangle";
+import GameMap from "./map";
 
 export default class Character extends Rectangle {
   public stuck: boolean;
@@ -10,6 +11,7 @@ export default class Character extends Rectangle {
   public keyState: KeyState;
   public speed: number;
   public stage: any;
+  public currentMap: GameMap;
 
   public constructor(width: number, height: number, color: number, initialSpeed: number) {
     super(width, height, color);
@@ -23,6 +25,10 @@ export default class Character extends Rectangle {
       left: false,
       right: false,
     };
+  }
+
+  public setCurrentMap(g: GameMap) {
+    this.currentMap = g;
   }
 
   public onCollide(t: Component<any>) {
@@ -103,9 +109,10 @@ export default class Character extends Rectangle {
   }
 
   private moveCamera() {
+    if (this.position.x < WIDTH / 2) return;
     this.stage.pivot.x = this.position.x;
-    this.stage.pivot.y = this.position.y;
+    // this.stage.pivot.y = this.position.y;
     this.stage.position.x = WIDTH / 2;
-    this.stage.position.y = HEIGHT / 2;
+    // this.stage.position.y = HEIGHT / 2;
   }
 }

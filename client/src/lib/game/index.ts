@@ -2,10 +2,12 @@ import * as PIXI from "pixi.js";
 import { HEIGHT, WIDTH } from "../../constant";
 import { getRandomArray } from "../array";
 import { getRandomHexColor } from "../color";
+import { stage1 } from "../map";
 import ImmovableRectangle from "./component/immovable-rectangle";
 import RandomCollideBall from "./component/random-collide-ball";
 import ObstacleController from "./controller/obstacle.controller";
 import Character from "./unit/character";
+import GameMap from "./unit/map";
 
 export default class Game extends PIXI.Application {
   private obstacleController: ObstacleController;
@@ -26,18 +28,28 @@ export default class Game extends PIXI.Application {
     const boxes = this.createRandomImmutableBox(10);
 
     // generate obstacles
-    this.stage.addChild(...balls);
-    this.stage.addChild(...boxes);
 
-    this.obstacleController = new ObstacleController(balls);
-    boxes.forEach((b) => this.obstacleController.addObstacle(b));
+    this.obstacleController = new ObstacleController([]);
 
     // create character
 
     const character = new Character(50, 50, getRandomHexColor(), 2);
     this.stage.addChild(character);
     this.obstacleController.addObstacle(character);
+
+    const gameMap = new GameMap(stage1);
+    this.stage.addChild(...gameMap.walls);
+    gameMap.walls.forEach((a) => this.obstacleController.addObstacle(a));
+
     character.stage = this.stage;
+
+    character.position.x = WIDTH / 2;
+    character.position.y = HEIGHT / 2;
+
+    this.stage.pivot.x = character.position.x;
+    this.stage.pivot.y = character.position.y;
+    this.stage.position.x = WIDTH / 2;
+    this.stage.position.y = HEIGHT / 2;
 
     window.addEventListener("keydown", character.onKeyDown.bind(character));
     window.addEventListener("keyup", character.onKeyUp.bind(character));
