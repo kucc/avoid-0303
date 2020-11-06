@@ -23,6 +23,11 @@ export default class Game extends PIXI.Application {
       backgroundColor: 0x1099bb,
     });
 
+    const chaseMusic = document.createElement("audio");
+    chaseMusic.src = "/music/chase.mp3";
+    chaseMusic.autoplay = true;
+    document.getElementById("root").appendChild(chaseMusic);
+
     this.container = new PIXI.Container();
     this.stage.addChild(this.container);
     this.runGame = true;
@@ -50,7 +55,7 @@ export default class Game extends PIXI.Application {
     WinText.position.y = HEIGHT / 2;
 
     const characterTexture = PIXI.Texture.from("/images/swim-right-1.png");
-    const character = new Character(100, 40, getRandomHexColor(), 3.5, characterTexture);
+    const character = new Character(100, 40, getRandomHexColor(), 3, characterTexture);
     this.stage.addChild(character);
     this.obstacleController.addObstacle(character);
 
@@ -92,6 +97,13 @@ export default class Game extends PIXI.Application {
 
       while (this.stage.children[0]) this.stage.removeChild(this.stage.children[0]);
       this.stage.addChild(surprise);
+
+      const deathMusic = document.createElement("audio");
+      deathMusic.src = "/music/death.mp3";
+      deathMusic.autoplay = true;
+      document.getElementById("root").appendChild(deathMusic);
+      chaseMusic.pause();
+      // document.getElementById("root").removeChild(chaseMusic);
     };
 
     character.stopGame = stopGame;

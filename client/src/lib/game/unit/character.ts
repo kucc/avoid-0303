@@ -16,6 +16,7 @@ export default class Character extends Rectangle {
   public stage: any;
   public currentMap: GameMap;
   public stopGame: () => void;
+  public stopped: boolean;
 
   public constructor(
     width: number,
@@ -43,7 +44,11 @@ export default class Character extends Rectangle {
 
   public onCollide(t: Component<any>) {
     if (t instanceof Enemy) {
-      if (this.stopGame) this.stopGame();
+      if (this.stopGame)
+        if (!this.stopped) {
+          this.stopped = true;
+          this.stopGame();
+        }
       return;
     }
 
