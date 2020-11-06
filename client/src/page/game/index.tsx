@@ -11,7 +11,6 @@ const GamePage: React.FC = () => {
         <S.GameArea>
           <GameComponent />
         </S.GameArea>
-        <S.ChattingArea></S.ChattingArea>
       </S.GamePage>
     </Layout>
   );

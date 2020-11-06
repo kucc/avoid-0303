@@ -8,7 +8,7 @@ export interface CircleMeta {
 export interface RectanglerMeta {
   width: number;
   height: number;
-  color: string;
+  color: number;
 }
 
 export interface OvalMeta {

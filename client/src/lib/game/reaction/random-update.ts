@@ -1,8 +1,10 @@
+import { HEIGHT, WIDTH } from "../../../constant";
+
 export default function updateRandomly() {
   if (
-    this.x > 700 + this.radius ||
+    this.x > WIDTH + this.radius ||
     this.x < -this.radius ||
-    this.y > 400 + this.radius ||
+    this.y > HEIGHT + this.radius ||
     this.y < -this.radius
   ) {
     this.resetSpeed();

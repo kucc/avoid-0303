@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
-import { getDistance } from "../../distance";
+import { HEIGHT, WIDTH } from "../../../constant";
+import { getEuclideanDistance } from "../../distance";
 import elasticCollision from "../reaction/elastic-collision";
-import updateRandomly from "../reaction/random-update";
 import Component from "./component";
+import ImmovableRectangle from "./immovable-rectangle";
 import { ComponentMeta } from "./types";
 
-export default class Ball extends Component<PIXI.Circle> {
+export default abstract class Circle extends Component<PIXI.Circle> {
   public xSpeed: number;
   public ySpeed: number;
   public radius: number;
@@ -29,10 +30,6 @@ export default class Ball extends Component<PIXI.Circle> {
     this.y += y;
   }
 
-  public update() {
-    elasticCollision.bind(this)();
-  }
-
   public setUpdate(update: () => void) {
     this.update = update;
   }
@@ -43,7 +40,7 @@ export default class Ball extends Component<PIXI.Circle> {
   }
 
   public resetPosition() {
-    this.position.set(Math.random() * 700, Math.random() * 400);
+    this.position.set(Math.random() * WIDTH, Math.random() * HEIGHT);
   }
 
   public resetSpeed() {
@@ -51,24 +48,25 @@ export default class Ball extends Component<PIXI.Circle> {
   }
 
   public isCollided(target: Component<any>): boolean {
-    if (target instanceof Ball) {
+    if (target instanceof Circle) {
       return this.isBallCollided(target);
+    } else if (target instanceof ImmovableRectangle) {
+      return this.isRectangularCollided(target);
     }
   }
 
-  private isBallCollided(target: Ball): boolean {
-    return getDistance(target.x, this.x, target.y, this.y) <= target.radius + this.radius;
+  private isBallCollided(target: Circle): boolean {
+    return getEuclideanDistance(target.x, this.x, target.y, this.y) <= target.radius + this.radius;
   }
 
-  public onCollide(target: Component<any>) {
-    if (target instanceof Ball) {
-      const e = [this.xSpeed, this.ySpeed];
-      const dist = getDistance(target.x, this.x, target.y, this.y);
-      const n = [(this.x - target.x) / dist, (this.y - target.y) / dist];
-      const edn = -e[0] * n[0] - e[1] * n[1];
-      const result = [n[0] * edn * 2 + e[0], n[1] * edn * 2 + e[1]];
-      this.xSpeed = result[0];
-      this.ySpeed = result[1];
-    }
+  private isRectangularCollided(t: ImmovableRectangle): boolean {
+    const corners = [
+      [t.x, t.y],
+      [t.x + t.width, t.y],
+      [t.x, t.y + t.height],
+      [t.x + t.height, t.y + t.height],
+    ];
+
+    return false; // TODO
   }
 }

@@ -28,3 +28,6 @@ export const Hide_Scrollbar = `
   `;
 
 export const BREAKPOINT = 500;
+
+export const HEIGHT = 600;
+export const WIDTH = 1000;
