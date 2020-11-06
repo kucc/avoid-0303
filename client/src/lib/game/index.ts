@@ -24,16 +24,13 @@ export default class Game extends PIXI.Application {
     this.container = new PIXI.Container();
     this.stage.addChild(this.container);
 
-    const balls = this.createRandomCollideBalls(10);
-    const boxes = this.createRandomImmutableBox(10);
-
     // generate obstacles
 
     this.obstacleController = new ObstacleController([]);
 
     // create character
 
-    const character = new Character(50, 50, getRandomHexColor(), 2);
+    const character = new Character(10, 10, getRandomHexColor(), 5);
     this.stage.addChild(character);
     this.obstacleController.addObstacle(character);
 
@@ -43,11 +40,11 @@ export default class Game extends PIXI.Application {
 
     character.stage = this.stage;
 
-    character.position.x = WIDTH / 2;
+    character.position.x = 50;
     character.position.y = HEIGHT / 2;
 
-    this.stage.pivot.x = character.position.x;
-    this.stage.pivot.y = character.position.y;
+    this.stage.pivot.x = WIDTH / 2;
+    this.stage.pivot.y = HEIGHT / 2;
     this.stage.position.x = WIDTH / 2;
     this.stage.position.y = HEIGHT / 2;
 
