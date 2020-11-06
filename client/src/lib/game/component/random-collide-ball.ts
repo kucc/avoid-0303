@@ -5,6 +5,7 @@ import elasticCollision from "../reaction/elastic-collision";
 import Circle from "./circle";
 import Component from "./component";
 import ImmovableRectangle from "./immovable-rectangle";
+import Rectangle from "./rectangle";
 
 export default class RandomCollideBall extends Circle {
   public constructor(radius: number, color: number) {
@@ -22,8 +23,8 @@ export default class RandomCollideBall extends Circle {
       this.ySpeed = result[1];
     }
 
-    if (t instanceof ImmovableRectangle) {
-      // TODO
+    if (t instanceof Rectangle) {
+      console.log("shit");
     }
   }
 

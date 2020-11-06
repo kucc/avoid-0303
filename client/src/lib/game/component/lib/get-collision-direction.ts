@@ -2,7 +2,7 @@ import Circle from "../circle";
 import Component from "../component";
 import Rectangle from "../rectangle";
 
-export const getCollisionDirection = (a: Component<any>, b: Component<any>) => {
+export const getCollisionDirectionOfRectangle = (a: Component<any>, b: Component<any>) => {
   if (
     (a instanceof Circle && b instanceof Rectangle) ||
     (a instanceof Rectangle && b instanceof Circle)

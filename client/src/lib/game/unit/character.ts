@@ -1,7 +1,7 @@
-import { dir } from "console";
+import { HEIGHT, WIDTH } from "../../../constant";
 import { KeyState } from "../../type";
 import Component from "../component/component";
-import { getCollisionDirection } from "../component/lib/get-collision-direction";
+import { getCollisionDirectionOfRectangle } from "../component/lib/get-collision-direction";
 import Rectangle from "../component/rectangle";
 
 export default class Character extends Rectangle {
@@ -9,6 +9,7 @@ export default class Character extends Rectangle {
   public movable: number;
   public keyState: KeyState;
   public speed: number;
+  public stage: any;
 
   public constructor(width: number, height: number, color: number, initialSpeed: number) {
     super(width, height, color);
@@ -26,7 +27,7 @@ export default class Character extends Rectangle {
 
   public onCollide(t: Component<any>) {
     if (t instanceof Rectangle) {
-      const direction = getCollisionDirection(this, t);
+      const direction = getCollisionDirectionOfRectangle(this, t);
 
       switch (direction) {
         case "left":
@@ -52,6 +53,8 @@ export default class Character extends Rectangle {
       this.speed * (this.keyState.right ? 1 : 0 - (this.keyState.left ? 1 : 0)),
       this.speed * (this.keyState.down ? 1 : 0 - (this.keyState.up ? 1 : 0)),
     );
+
+    this.moveCamera();
   }
 
   public onKeyDown(e) {
@@ -88,5 +91,21 @@ export default class Character extends Rectangle {
         break;
     }
     this.movable -= 1;
+  }
+
+  public onBlur() {
+    this.keyState = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+    };
+  }
+
+  private moveCamera() {
+    this.stage.pivot.x = this.position.x;
+    this.stage.pivot.y = this.position.y;
+    this.stage.position.x = WIDTH / 2;
+    this.stage.position.y = HEIGHT / 2;
   }
 }

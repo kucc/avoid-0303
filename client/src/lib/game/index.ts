@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { HEIGHT, WIDTH } from "../../constant";
 import { getRandomArray } from "../array";
 import { getRandomHexColor } from "../color";
 import ImmovableRectangle from "./component/immovable-rectangle";
@@ -36,9 +37,11 @@ export default class Game extends PIXI.Application {
     const character = new Character(50, 50, getRandomHexColor(), 2);
     this.stage.addChild(character);
     this.obstacleController.addObstacle(character);
+    character.stage = this.stage;
 
     window.addEventListener("keydown", character.onKeyDown.bind(character));
     window.addEventListener("keyup", character.onKeyUp.bind(character));
+    window.onblur = character.onBlur.bind(character);
 
     const main = () => {
       this.obstacleController.update();
